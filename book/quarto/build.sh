@@ -97,7 +97,7 @@ preflight() {
     fi
 
     if [[ $issues -gt 0 ]]; then
-        warn "$issue(s) detected — builds may still work but some features will be limited"
+        warn "$issues issue(s) detected — builds may still work but some features will be limited"
     fi
 }
 
