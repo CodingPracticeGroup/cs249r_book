@@ -1,0 +1,8 @@
+---
+lang: zh-CN
+title: "参考文献"
+---
+
+> TODO: 翻译中... 此处为占位符。
+> 
+> 原文: vol2/backmatter/references.qmd

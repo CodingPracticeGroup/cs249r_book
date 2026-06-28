@@ -1,0 +1,8 @@
+---
+lang: zh-CN
+title: "Ops at Scale"
+---
+
+> TODO: 翻译中... 此处为占位符。
+> 
+> 原文: vol2/ops_scale/ops_scale.qmd

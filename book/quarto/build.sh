@@ -218,6 +218,52 @@ build_direct() {
 }
 
 # ── Main ────────────────────────────────────────────────────────────────────
+# ── Serve: serve _build/ on a single port ───────────────────────────────────
+serve() {
+    local port="${1:-8080}"
+    header "Serve | _build on port $port"
+
+    # Kill existing
+    local pid
+    pid=$(lsof -ti ":${port}" 2>/dev/null || true)
+    if [[ -n "$pid" ]]; then
+        log "Stopping port $port (PID: $pid)"
+        kill $pid 2>/dev/null || true
+        sleep 0.5
+        kill -9 $pid 2>/dev/null || true
+        ok "Old server stopped"
+    fi
+
+    # Start
+    log "python3 -m http.server $port --directory _build"
+    cd _build
+    python3 -m http.server "$port" &
+    local new_pid=$!
+    disown $new_pid 2>/dev/null
+    cd "$SCRIPT_DIR"
+
+    sleep 1
+    if kill -0 "$new_pid" 2>/dev/null; then
+        ok "http://localhost:${port}/"
+        ok "  html-vol1/       English HTML"
+        ok "  html-vol1-zh/    Chinese HTML"
+        ok "  html-vol2/       English Vol2 HTML"
+        ok "  html-vol2-zh/    Chinese Vol2 HTML"
+        ok "  pdf-vol1/        English PDF"
+        ok "  pdf-vol1-zh/     Chinese PDF"
+    else
+        fail "Server failed to start"
+    fi
+}
+
+
+# ── Entry: serve ────────────────────────────────────────────────────────────
+if [[ "${1:-}" == "serve" ]]; then
+    setup_env
+    serve "${2:-8080}"
+    exit 0
+fi
+
 main() {
     header "MLSysBook Build — bilingual (en + zh)"
 
@@ -295,6 +341,13 @@ if [[ "${1:-}" == "quick-serve" ]]; then
     else
         fail "Server failed to start"
     fi
+    exit 0
+fi
+
+# ── Entry: serve ────────────────────────────────────────────────────────────
+if [[ "${1:-}" == "serve" ]]; then
+    setup_env
+    serve "${2:-8080}"
     exit 0
 fi
 

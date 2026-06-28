@@ -1,0 +1,13 @@
+# =============================================================================
+# ANNOUNCEMENT BAR — Volume II Chinese (At Scale)
+# =============================================================================
+website:
+  announcement:
+    icon: megaphone
+    dismissable: true
+    type: primary
+    position: below-navbar
+    content: |
+      🚀 **Volume II: At Scale.** distributed training, fleet operations, responsible deployment.<br>
+      📘 **入门？** [Volume I: Foundations](https://mlsysbook.ai/vol1/) — open access, free forever.<br>
+      🛠️ **配套资源:** [TinyTorch](https://mlsysbook.ai/tinytorch/) (build) · [Hardware Kits](https://mlsysbook.ai/kits/) (deploy) · [MLSys·im](https://mlsysbook.ai/mlsysim/) (model)
