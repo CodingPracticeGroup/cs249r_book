@@ -1,0 +1,20 @@
+# =============================================================================
+# Chinese cross-reference labels (Simplified Chinese)
+# Technical terms and named callouts (Principle, Theorem, etc.) remain in English
+# =============================================================================
+crossref:
+  fig-prefix: "图"
+  tbl-prefix: "表"
+  sec-prefix: "节"
+  eq-prefix: "公式"
+  lst-prefix: "代码"
+  appendix-title: "附录"
+  appendix-delim: ":"
+  custom:
+    - kind: float
+      key: vid
+      latex-env: vid
+      reference-prefix: "视频"
+
+# Algorithm refs — keep "Algorithm" in English as it's a standard technical term
+crossref-alg-prefix: "Algorithm"

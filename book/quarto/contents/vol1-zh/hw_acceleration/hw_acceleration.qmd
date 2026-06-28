@@ -1,0 +1,8 @@
+---
+lang: zh-CN
+title: "Hardware Acceleration"
+---
+
+> TODO: 翻译中... 此处为占位符。
+> 
+> 原文: vol1/hw_acceleration/hw_acceleration.qmd

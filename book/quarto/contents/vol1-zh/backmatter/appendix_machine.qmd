@@ -1,0 +1,8 @@
+---
+lang: zh-CN
+title: " Machine Foundations"
+---
+
+> TODO: 翻译中... 此处为占位符。
+> 
+> 原文: vol1/backmatter/appendix_machine.qmd

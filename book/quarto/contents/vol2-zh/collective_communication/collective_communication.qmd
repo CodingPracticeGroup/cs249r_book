@@ -1,0 +1,8 @@
+---
+lang: zh-CN
+title: "Collective Communication"
+---
+
+> TODO: 翻译中... 此处为占位符。
+> 
+> 原文: vol2/collective_communication/collective_communication.qmd

@@ -1,0 +1,8 @@
+---
+lang: zh-CN
+title: "Network Fabrics"
+---
+
+> TODO: 翻译中... 此处为占位符。
+> 
+> 原文: vol2/network_fabrics/network_fabrics.qmd

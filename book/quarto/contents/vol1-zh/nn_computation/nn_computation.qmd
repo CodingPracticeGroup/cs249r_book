@@ -1,0 +1,8 @@
+---
+lang: zh-CN
+title: "Neural Network Computation"
+---
+
+> TODO: 翻译中... 此处为占位符。
+> 
+> 原文: vol1/nn_computation/nn_computation.qmd

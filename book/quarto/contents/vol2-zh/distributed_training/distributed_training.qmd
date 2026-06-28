@@ -1,0 +1,8 @@
+---
+lang: zh-CN
+title: "Distributed Training"
+---
+
+> TODO: 翻译中... 此处为占位符。
+> 
+> 原文: vol2/distributed_training/distributed_training.qmd

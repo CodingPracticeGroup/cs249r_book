@@ -1,0 +1,8 @@
+---
+lang: zh-CN
+title: "Sustainable AI"
+---
+
+> TODO: 翻译中... 此处为占位符。
+> 
+> 原文: vol2/sustainable_ai/sustainable_ai.qmd
