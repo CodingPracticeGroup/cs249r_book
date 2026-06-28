@@ -12,11 +12,12 @@
 #   - rsvg-convert required for PDF (SVG→PDF conversion)
 #   - index.qmd symlink must match the target volume/language
 #
-# Usage:
+# Usage (args in any order):
 #   ./build.sh                          # Build all (en+zh, html+pdf)
 #   ./build.sh en html                  # English HTML only
 #   ./build.sh zh pdf                   # Chinese PDF only
 #   ./build.sh vol2 zh html             # Volume II Chinese HTML
+#   ./build.sh en zh html               # Both languages, HTML only
 #
 #   # Rebuild + restart web server:
 #   ./build.sh serve en                 # Rebuild en HTML, serve on :8080
@@ -34,10 +35,20 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$SCRIPT_DIR"
 
-# ── Defaults ────────────────────────────────────────────────────────────────
-VOLUME="${1:-all}"
-LANGUAGE="${2:-all}"
-FORMAT="${3:-all}"
+# ── Smart argument parsing ──────────────────────────────────────────────────
+# Accept: vol, lang, fmt in any order
+#   ./build.sh                     → all
+#   ./build.sh en html             → English HTML
+#   ./build.sh zh pdf vol1         → Chinese PDF Vol1
+#   ./build.sh vol2 zh html        → Vol2 Chinese HTML
+VOLUME="all"; LANGUAGE="all"; FORMAT="all"
+for arg in "$@"; do
+    case "$arg" in
+        vol1|vol2) VOLUME="$arg" ;;
+        en|zh)     LANGUAGE="$arg" ;;
+        html|pdf|epub) FORMAT="$arg" ;;
+    esac
+done
 
 # ── Color helpers ───────────────────────────────────────────────────────────
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'
