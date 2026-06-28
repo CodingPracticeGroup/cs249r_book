@@ -1,0 +1,8 @@
+---
+lang: zh-CN
+title: "Responsible Engineering"
+---
+
+> TODO: 翻译中... 此处为占位符。
+> 
+> 原文: vol1/responsible_engr/responsible_engr.qmd

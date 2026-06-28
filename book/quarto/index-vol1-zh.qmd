@@ -1,0 +1,61 @@
+---
+lang: zh-CN
+output-file: index.html
+sidebar: vol1-zh-content
+format:
+  html:
+    title: "机器学习系统导论"
+    date: today
+    date-format: long
+    doi: "v0.7.0"
+    doi-title: "Version"
+    author:
+      name: Vijay Janapa Reddi
+      email: vj@eecs.harvard.edu
+      url: https://vijay.seas.harvard.edu
+      affiliation: Harvard University
+---
+
+::: {.content-visible when-format="html:js"}
+
+# 欢迎 {.unnumbered}
+
+```{=html}
+<div class="abstract-section">
+  <div class="abstract-content">
+    <p>Machine learning 已经从一门研究学科发展成为工程实践。构建从数据中学习的系统，不仅需要理解 algorithms，还需要 data pipelines、model development、deployment constraints 优化以及 operational practices 等方面的专业知识。本书介绍 AI engineering：构建在真实世界中运行的 ML systems 这一学科。全书涵盖四个领域：foundations（system characteristics、development workflows）、building（deep learning 数学基础、architectures、framework internals）、optimization（compression、hardware acceleration、benchmarking）以及 deployment（serving infrastructure、operations、responsible engineering）。全书始终强调 engineering trade-offs 和 quantitative analysis。</p>
+  </div>
+
+  <a href="assets/downloads/Machine-Learning-Systems-Vol1.pdf" target="_blank" class="book-card-link" title="Download PDF">
+    <div class="book-card">
+      <img src="assets/images/covers/cover-hardcover-book-vol1.webp" alt="Machine Learning Systems Book Cover" class="book-image" />
+      <p class="book-title">机器学习系统导论</p>
+      <p class="book-subtitle">Publisher: The MIT Press (2026)</p>
+      <p style="font-size: 0.8em; color: #6c757d; margin-top: 6px; margin-bottom: 0;">📖 点击此处下载 PDF</p>
+    </div>
+  </a>
+</div>
+```
+
+## 你将学到什么 {.unnumbered}
+
+全书分为四个阶段：
+
+- **Part I: Foundations**— 建立概念基础，掌握所有有效系统工作背后的 mental models。
+- **Part II: Build**— 从 data pipelines 到 training infrastructure，构建完整的 workflows。
+- **Part III: Optimize**— 将理论理解转化为在 resource-constrained environments 中高效运行的系统。
+- **Part IV: Deploy**— 掌握 serving、operations 和 responsible engineering practices。
+
+## 先修要求 {.unnumbered}
+
+本书假设读者具备：
+
+- **Programming proficiency**：熟悉 Python 和 NumPy
+- **Mathematics foundations**：本科水平的 linear algebra、calculus 和 probability
+- 之前的 ML 经验有帮助但非必需；@sec-neural-computation 提供必要的 background
+
+## 学以致用 {.unnumbered}
+
+除了章节内容，本卷还是更广泛 AI engineering curriculum 的阅读主线。将章节与 [Co-Labs](https://mlsysbook.ai/labs/) 结合测试预测、[TinyTorch](https://mlsysbook.ai/tinytorch/) 构建 framework internals、[MLSys·im](https://mlsysbook.ai/mlsysim/) 建模 hardware constraints、[Hardware Kits](https://mlsysbook.ai/kits/) 在真实设备上部署。教师可通过 [The AI Engineering Blueprint](https://mlsysbook.ai/instructors/) 采用完整课程。
+
+## 支持我们的使命 {.unnumbered}

@@ -1,0 +1,8 @@
+---
+lang: zh-CN
+title: " Foundations"
+---
+
+> TODO: 翻译中... 此处为占位符。
+> 
+> 原文: vol1/parts/foundations_principles.qmd

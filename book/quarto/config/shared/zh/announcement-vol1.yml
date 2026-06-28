@@ -1,0 +1,13 @@
+# =============================================================================
+# ANNOUNCEMENT BAR — Volume I Chinese (Foundations)
+# =============================================================================
+website:
+  announcement:
+    icon: megaphone
+    dismissable: true
+    type: primary
+    position: below-navbar
+    content: |
+      📘 **Volume I: Foundations.** 单机 ML 系统 — data, algorithms, machines.<br>
+      🚀 **进阶？** [Volume II: At Scale](https://mlsysbook.ai/vol2/) — distributed training, fleet operations.<br>
+      🛠️ **配套资源:** [TinyTorch](https://mlsysbook.ai/tinytorch/) (build) · [Hardware Kits](https://mlsysbook.ai/kits/) (deploy) · [MLSys·im](https://mlsysbook.ai/mlsysim/) (model) · [Labs](https://mlsysbook.ai/labs/) (explore)
