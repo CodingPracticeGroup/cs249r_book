@@ -18,6 +18,15 @@
 #   ./build.sh zh pdf                   # Chinese PDF only
 #   ./build.sh vol2 zh html             # Volume II Chinese HTML
 #
+#   # Rebuild + restart web server:
+#   ./build.sh serve en                 # Rebuild en HTML, serve on :8080
+#   ./build.sh serve zh                 # Rebuild zh HTML, serve on :8081
+#   ./build.sh serve en vol2            # Rebuild en vol2, serve on :8082
+#   ./build.sh serve zh vol2            # Rebuild zh vol2, serve on :8083
+#
+#   # Just restart server (no rebuild):
+#   ./build.sh quick-serve _build/html-vol1 8080
+#
 # =============================================================================
 set -euo pipefail
 
@@ -232,6 +241,16 @@ main() {
         done
     done
 
+    # Auto-serve HTML if --serve flag
+    if [[ "${SERVE_HTML:-false}" == "true" ]]; then
+        for dir in _build/html-vol{1,1-zh,2,2-zh}; do
+            [[ -d "$dir" ]] || continue
+            local port=8080
+            [[ "$dir" == *"-zh"* ]] && port=8081
+            [[ "$dir" == *"vol2"* ]] && port=$((port + 2))
+            serve "$dir" "$port"
+        done
+    fi
     header "Build complete: $built/$total targets succeeded"
     log "Output directories:"
     for dir in _build/*/; do
@@ -242,4 +261,134 @@ main() {
     done
 }
 
+# ── Entry point: serve / quick-serve ───────────────────────────────────────
+if [[ "${1:-}" == "serve" ]]; then
+    setup_env
+    serve "${2:-en}" "${3:-html}" "${4:-vol1}" "${5:-8080}"
+    exit 0
+fi
+
+if [[ "${1:-}" == "quick-serve" ]]; then
+    _DIR="${2:-_build/html-vol1}"
+    _PORT="${3:-8080}"
+    header "Quick Serve | $_DIR on port $_PORT"
+    _PID=$(lsof -ti ":${_PORT}" 2>/dev/null || true)
+    [[ -n "$_PID" ]] && kill $_PID 2>/dev/null && sleep 0.5
+    cd "${_DIR}"
+    python3 -m http.server "${_PORT}" &
+    _NEWPID=$!
+    disown $_NEWPID 2>/dev/null
+    sleep 1
+    if kill -0 $_NEWPID 2>/dev/null; then
+        ok "http://localhost:${_PORT}  (PID $_NEWPID)"
+    else
+        fail "Server failed to start"
+    fi
+    exit 0
+fi
+
 main
+
+# ── Serve: kill old server, rebuild, start new one ────────────────────────
+serve() {
+    local lang="${1:-en}"     # en or zh
+    local fmt="${2:-html}"    # html or pdf
+    local vol="${3:-vol1}"    # vol1 or vol2
+    local port="${4:-8080}"   # default port
+
+    # Determine port by language
+    if [[ "$lang" == "zh" ]]; then
+        port=$((port + 1))    # zh gets port+1 (8080→8081)
+    fi
+    if [[ "$vol" == "vol2" ]]; then
+        port=$((port + 2))    # vol2 gets port+2
+    fi
+
+    header "Rebuild + Serve | ${lang^^} | ${vol^^} | ${fmt^^} | port $port"
+
+    # Kill any existing server on this port
+    local existing_pid
+    existing_pid=$(lsof -ti ":${port}" 2>/dev/null || true)
+    if [[ -n "$existing_pid" ]]; then
+        log "Stopping existing server on port $port (PID: $existing_pid)"
+        kill $existing_pid 2>/dev/null || true
+        sleep 0.5
+        kill -9 $existing_pid 2>/dev/null || true
+        ok "Old server stopped"
+    fi
+
+    # Rebuild
+    if [[ "$lang" == "en" ]]; then
+        build_en "$vol" "$fmt"
+    else
+        build_zh "$vol" "$fmt"
+    fi
+
+    # Determine output directory
+    local suffix=""
+    [[ "$lang" == "zh" ]] && suffix="-zh"
+    local output_dir="_build/${fmt}-${vol}${suffix}"
+
+    if [[ ! -d "$output_dir" ]]; then
+        fail "Output directory not found: $output_dir"
+    fi
+
+    # Start new server
+    log "Starting server on port $port → $output_dir"
+    cd "$output_dir"
+    python3 -m http.server "$port" &
+    local new_pid=$!
+    disown $new_pid 2>/dev/null
+    cd "$SCRIPT_DIR"
+
+    sleep 1
+    if kill -0 "$new_pid" 2>/dev/null; then
+        ok "http://localhost:${port}  (PID $new_pid)"
+    else
+        fail "Server failed to start"
+    fi
+}
+
+# ── Quick serve (no rebuild, just restart server) ─────────────────────────
+quick_serve() {
+    local dir="$1"    # output directory (e.g., _build/html-vol1)
+    local port="${2:-8080}"
+
+    header "Serve | $dir on port $port"
+
+    if [[ ! -d "$dir" ]]; then
+        fail "Directory not found: $dir"
+    fi
+
+    # Kill any existing server on this port
+    local existing_pid
+    existing_pid=$(lsof -ti ":${port}" 2>/dev/null || true)
+    if [[ -n "$existing_pid" ]]; then
+        log "Killing existing server on port $port (PID: $existing_pid)"
+        kill $existing_pid 2>/dev/null || true
+        sleep 0.5
+        # Force kill if still running
+        if lsof -ti ":${port}" &>/dev/null; then
+            kill -9 $existing_pid 2>/dev/null || true
+            sleep 0.5
+        fi
+        ok "Previous server stopped"
+    fi
+
+    # Start new server in background
+    log "Starting python3 -m http.server $port -d $dir"
+    cd "$dir"
+    nohup python3 -m http.server "$port" > /dev/null 2>&1 &
+    local new_pid=$!
+    cd "$SCRIPT_DIR"
+
+    # Wait briefly and verify
+    sleep 1
+    if kill -0 "$new_pid" 2>/dev/null; then
+        ok "Server running: PID $new_pid, http://localhost:${port}"
+    else
+        fail "Server failed to start"
+    fi
+}
+
+# ── Add serve to main if called with "serve" ──────────────────────────────
